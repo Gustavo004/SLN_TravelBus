@@ -1,0 +1,152 @@
+﻿@using TravelBus.Models
+@model List<EmpleadoCLS>
+
+
+@{
+    ViewBag.Title = "Index";
+
+    List<SelectListItem> listaUsuario = (List<SelectListItem>)ViewBag.listaTipoUsuario;
+
+}
+
+
+<h2>Index</h2>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
+<script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+
+
+
+@Html.ActionLink("Agregar", "Agregar", "Empleado", null, new { @class = "btn btn-primary" })
+
+
+
+<!-- Formulario para hacer la busqueda -->
+@using (Html.BeginForm("Index", "Empleado", FormMethod.Get, new { @id = "frmBusqueda" }))
+{
+
+    //etiqueta para decir al usuario que debe hacer;
+    @Html.Label("Seleccione un tipo de  usuario")
+    <br />
+
+    //Combo box que me permite listar desde mi base de datos;
+    @Html.DropDownList("iidtipoUsuario", listaUsuario, null, new { @class = "form-control" })
+
+
+
+
+    <table class="table table-striped">
+
+
+        <thead>
+
+
+            <tr>
+                <td>@Html.LabelFor(p => Model[0].iidempleado)</td>
+                <td>@Html.LabelFor(p => Model[0].nombre)</td>
+                <td>@Html.LabelFor(p => Model[0].apPaterno)</td>
+                <td>@Html.LabelFor(p => Model[0].nombreTipoUsuario)</td>
+                <td>@Html.LabelFor(p => Model[0].nombreTipoContrato)</td>
+                <td><b>Operaciones</b></td>
+            </tr>
+
+
+
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.iidempleado</td>
+                    <td>@item.nombre</td>
+                    <td>@item.apPaterno</td>
+                    <td>@item.nombreTipoUsuario</td>
+                    <td>@item.nombreTipoContrato</td>
+
+                    <td width="0%">
+                        @Html.ActionLink(" ", "Editar", "Empleado", new { id = item.iidempleado }, new { @class = "glyphicon glyphicon-edit     btn btn-primary" })
+                        @*@Html.ActionLink(" ", "Eliminar", "Empleado", new { id = item.iidempleado }, new { @class = "glyphicon glyphicon-trash    btn btn-danger", @onClick = "eliminar()" })*@
+                        <button type="button" onclick="mostrarPopup(@item.iidempleado)" class="glyphicon glyphicon-trash btn btn-danger" data-toggle="modal" data-target="#myModal"></button>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+}
+<!--Recuperando id a través del Fomrulario escondido-->
+@using (Html.BeginForm("Eliminar", "Empleado", FormMethod.Post, new { @id = "frmEliminar" }))
+{
+    @Html.Hidden("iidempleado");
+
+}
+
+
+
+
+
+<!--MODAL-->
+<body>
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">¿Deseas eliminar el registro?</h4>
+                    </div>
+
+                    <div>
+                        <button type="button" onclick="Agregar()" class="btn btn-success">Aceptar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<!--Scrip para ejecutar el comando-->
+
+<script>
+
+    function mostrarPopup(iidempleado) {
+        document.getElementById("iidempleado").value = iidempleado;
+    }
+
+    function Agregar() {
+        var frmEliminar = document.getElementById("frmEliminar");
+        frmEliminar.submit();
+
+    }
+
+    //creamos una variable que esta asociado al elemento de nuestro modleo
+    var iidtipoUsuario = document.getElementById("iidtipoUsuario")
+
+    //si la variable cambia su estado creamos una funcion();
+    iidtipoUsuario.onchange = function () {
+        //Llamamos al fomrulario "frmBusqueda" que esta asociado a una busqueda
+        var frmBusqueda = document.getElementById("frmBusqueda");
+
+        //lo mandamos a llamar;
+        frmBusqueda.submit();
+    }
+
+
+</script>

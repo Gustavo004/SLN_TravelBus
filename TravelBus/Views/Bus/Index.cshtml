@@ -1,0 +1,153 @@
+﻿@using TravelBus.Models
+@model List<BusCLS>
+
+
+@{
+    ViewBag.Title = "Index";
+
+    List<SelectListItem> listaTipoBus = (List<SelectListItem>)ViewBag.listaTipoBus;
+
+    List<SelectListItem> listaModelo = (List<SelectListItem>)ViewBag.listaModelo;
+
+    List<SelectListItem> listaSucursal = (List<SelectListItem>)ViewBag.listaSucursal;
+}
+
+<h2>Index</h2>
+
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
+<script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+
+
+
+@Html.ActionLink("Agregar", "Agregar", "Bus", new { @class = "btn btn-primary" })
+
+
+
+@using (Html.BeginForm("Index", "Bus", FormMethod.Post, new { @id = "frmFiltrado" }))
+{
+
+    <table class="table table-striped">
+
+        <thead>
+
+            <!-- Para mostrar al usuario; -->
+            <tr>
+                <td>@Html.LabelFor(p => Model[0].IIDBUS)</td>
+                <td>@Html.LabelFor(p => Model[0].placa)</td>
+                <td>@Html.LabelFor(p => Model[0].nombreTipoModelo)</td>
+                <td>@Html.LabelFor(p => Model[0].nombreSucursalBus)</td>
+                <td>@Html.LabelFor(p => Model[0].nombreTipoBus)</td>
+                <td><b>Operaciones</b></td>
+            </tr>
+
+            <!-- Para la busqueda del formulario; -->
+            <tr>
+                <td>@Html.TextBox("IIDBUS", null, new { @class = "form-control" })</td>
+                <td>@Html.TextBox("placa", null, new { @class = "form-control" })</td>
+                <td>@Html.DropDownList("iidmodelo", listaModelo, null, new { @class = "form-control" })</td>
+                <td>@Html.DropDownList("iidsucursal", listaSucursal, null, new { @class = "form-control" })</td>
+                <td>@Html.DropDownList("iidtipobus", listaTipoBus, null, new { @class = "form-control" })</td>
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.IIDBUS</td>
+                    <td>@item.placa</td>
+                    <td>@item.nombreTipoModelo</td>
+                    <td>@item.nombreSucursalBus</td>
+                    <td>@item.nombreTipoBus</td>
+
+                    <td>
+                        @Html.ActionLink(" ", "Editar", "Bus", new { id = item.IIDBUS }, new { @class = "glyphicon glyphicon-edit     btn btn-primary" })
+                        @*@Html.ActionLink(" ", "Eliminar", "Bus", new { id = item.IIDBUS }, new { @class = "glyphicon glyphicon-trash btn btn-danger", @onclick = "eliminar()" })*@
+                        <button type="button" onclick="mostrarPopup(@item.IIDBUS)" class="glyphicon glyphicon-trash btn btn-danger" data-toggle="modal" data-target="#myModal"></button>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+
+@using (Html.BeginForm("Eliminar", "Bus", FormMethod.Post, new { @id = "frmEliminar" }))
+{
+    @Html.Hidden("IIDBUS");
+
+}
+
+
+
+
+<!--MODAL-->
+<body>
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+        <!-- Modal -->
+
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">¿Desea eliminar el cambio?</h4>
+                    </div>
+
+                    <div>
+                        <button type="button" onclick="Agregar()" class="btn btn-success">Aceptar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+
+<script>
+
+    var frmFiltrado = document.getElementById("frmFiltrado");
+    var controles = document.getElementsByClassName("form-control")
+    var ncontroles = controles.length;
+
+    for (var i = 0; i < ncontroles; i++) {
+        controles[i].onchange = function () {
+            frmFiltrado.submit();
+        }
+    }
+
+
+    function mostrarPopup(IIDBUS) {
+        document.getElementById("IIDBUS").value = IIDBUS;
+    }
+
+    function Agregar() {
+        var frmEliminar = document.getElementById("frmEliminar");
+        frmEliminar.submit();
+
+    }
+
+</script>
+

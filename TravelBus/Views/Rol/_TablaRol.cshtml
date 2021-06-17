@@ -1,0 +1,49 @@
+﻿@using TravelBus.Models;
+@model List<RolCLS>
+
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
+<script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+
+
+
+<!--Abriendo la tabla-->
+<table class="table table-bordered" "table-hover">
+
+    <!--Abriendo la cabecera-->
+    <thead>
+
+        <!--define una fila de celdas en una tabla-->
+        <tr>
+            <!--Abriendo una celda de tabla-->
+            <td>@Html.LabelFor(p => Model[0].iidRol)</td>
+            <td>@Html.LabelFor(p => Model[0].nombre)</td>
+            <td>@Html.LabelFor(p => Model[0].descripcion)</td>
+        </tr>
+
+    </thead><!--Cerrando la cabecera-->
+    <!--Recorriendo el modelo;-->
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <!--define una fila de celdas en una tabla-->
+            <tr>
+                <!--Abriendo una celda de tabla-->
+                <td>@item.iidRol</td>
+                <td>@item.nombre</td>
+                <td>@item.descripcion</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+<!--Cerrando la tabla-->

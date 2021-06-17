@@ -1,0 +1,90 @@
+﻿@using TravelBus.Models
+@model MarcaCLS
+
+@{
+    ViewBag.Title = "Agregar";
+}
+<h2>Agregar</h2>
+
+<div class="row">
+    <!--Creando formulario-->
+    <div class="col-md6">
+
+        <!--Haciendo referencia al metodo agregar en el controlador Marca-->
+        @using (Html.BeginForm("Agregar", "Marca", FormMethod.Post, new { @id = "frmAgregar" }))
+        {
+
+            <!--Obteniendo el nombre a través del modelo y  usando un TextBox-->
+            <div>
+                @Html.LabelFor(p => p.nombre)
+                @Html.TextBoxFor(p => p.nombre, new { @class = "form-control" })
+                @Html.ValidationMessage("nombre", new { @class = "text-danger" })
+
+                @if (Model != null && Model.mensajeError != null)
+                {
+                    @Html.Label(Model.mensajeError, new { @class = "text-danger" })
+                }
+
+            </div>
+
+
+            <!--Obteniendo el nombre a través del modelo y  usando un TextArea-->
+            <div>
+                @Html.LabelFor(p => p.descripcion)
+                @Html.TextAreaFor(p => p.descripcion, new { @class = "form-control"})
+                @Html.ValidationMessage("descripcion", new { @class = "text-danger" })
+            </div>
+
+            <br /> <!--Salto de Linea-->
+
+
+            <!--Creando un boton  con el nombre guardar;-->
+            <div style="margin:auto">
+
+                <!--Creando un boton  asociado al modal-->
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Guardar</button>
+
+                @Html.ActionLink("Regresar", "Index", "Marca", null, new { @class = "btn btn-danger" })
+
+            </div>
+
+        }
+    </div>
+</div>
+
+
+<!--MODAL-->
+<body>
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">¿Desea guardar el cambio?</h4>
+                    </div>
+
+                    <div>
+                        <button type="button" onclick="Agregar()" class="btn btn-success">Aceptar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<!--SCRIP EN EL EVENTO ONCLICK()-->
+<script>
+    function Agregar() {
+        var frmAgregar = document.getElementById("frmAgregar");
+
+        frmAgregar.submit();
+    }
+</script>

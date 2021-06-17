@@ -1,0 +1,59 @@
+﻿@using TravelBus.Models;
+@model List<ViajesCLS>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
+<script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+
+
+<!-- Barra de redireccion -->
+@Html.ActionLink("Agregar", "Agregar", "Viaje", null, new { @class = "btn btn-primary" })
+<br />
+
+<!-- Tabla donde guardamos la info; -->
+<table class="table table-striped">
+
+    <thead>
+
+        <tr>
+            <td>@Html.LabelFor(p => Model[0].iddViaje)</td>
+            <td>@Html.LabelFor(p => Model[0].nombreLugarOrigen)</td>
+            <td>@Html.LabelFor(p => Model[0].nombreLugarDestino)</td>
+            <td>@Html.LabelFor(p => Model[0].nombreBus)</td>
+            <td> <b>  Operaciones </b> </td>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.iddViaje</td>
+                <td>@item.nombreLugarOrigen</td>
+                <td>@item.nombreLugarDestino</td>
+                <td>@item.nombreBus</td>
+
+                <td>
+                    @Html.ActionLink(" ", "Editar", "Viaje", new { id = item.iddViaje }, new { @class = "glyphicon glyphicon-edit btn btn-primary" })
+                    @Html.ActionLink(" ", "Eliminar", "Viaje", new { id = item.iddViaje }, new { @class = "glyphicon glyphicon-trash btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

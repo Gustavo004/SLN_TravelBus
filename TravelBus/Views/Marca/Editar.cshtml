@@ -1,0 +1,97 @@
+﻿@using TravelBus.Models
+@model MarcaCLS
+
+@{
+    ViewBag.Title = "Editar";
+}
+<h2>Editar</h2>
+
+<div class="row">
+    <!--Creando formulario-->
+    <div class="col-md6">
+
+        <!--Haciendo referencia al metodo agregar en el controlador Marca-->
+        @using (Html.BeginForm("Editar", "Marca", FormMethod.Post, new { @id = "frmMarca" })) //el id new {@id="frmEditar"} permite identificar el formulario;
+        {
+
+
+            <div>
+                @Html.LabelFor(p => p.iidmarca)
+                @Html.TextBoxFor(p => p.iidmarca, new { @class = "form-control", @readOnly = true })
+                @Html.ValidationMessage("iidmarca", new { @class = "text-danger" })
+            </div>
+
+            <!--Obteniendo el nombre a través del modelo y  usando un TextBox-->
+            <div>
+                @Html.LabelFor(p => p.nombre)
+                @Html.TextBoxFor(p => p.nombre, new { @class = "form-control" })
+                @Html.ValidationMessage("nombre", new { @class = "text-danger" })
+
+                <!--Validacion de editar para mostrar al usuario-->
+
+                @if (Model != null && Model.mensajeError != null)
+                {
+                    @Html.Label(Model.mensajeError, new { @class = "text-danger" })
+                }
+            </div>
+
+            <!--Obteniendo el nombre a través del modelo y  usando un TextArea-->
+            <div>
+                @Html.LabelFor(p => p.descripcion)
+                @Html.TextAreaFor(p => p.descripcion, new { @class = "form-control" })
+                @Html.ValidationMessage("descripcion", new { @class = "text-danger" })
+            </div>
+
+            <br /> <!--Salto de Linea-->
+
+
+            <!--Creando un boton  con el nombre guardar;-->
+    <div style="margin:auto">
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Guardar</button>
+
+        <!--Creando un actionLink que funciona como un boton y que regresa al index;;-->
+        @Html.ActionLink("Regresar", "Index", "Marca", null, new { @class = "btn btn-danger" })
+    </div>
+
+
+
+        }
+    </div>
+</div>
+
+
+<!--MODAL-->
+<body>
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">¿Desea guardar el cambio?</h4>
+                    </div>
+
+                    <div>
+                        <button type="button" onclick="Editar()" class="btn btn-success">Aceptar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<!--SCRIP EN EL EVENTO ONCLICK()-->
+<script>
+    function Editar() {
+        var frmMarca = document.getElementById("frmMarca");
+
+        frmMarca.submit();
+    }
+</script>

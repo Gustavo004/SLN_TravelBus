@@ -1,0 +1,148 @@
+﻿@using TravelBus.Models
+@model List<SucursalCLS>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
+<script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+
+
+
+
+@Html.ActionLink("Agregar", "Agregar", "Sucursal", null, new { @class = "btn btn-primary" })
+
+
+@using (Html.BeginForm("Index", "Sucursal", FormMethod.Get, new { @id = "frmBusqueda" }))
+{
+
+
+    @Html.Label("Ingrese nombre sucursal")
+
+    <br />
+
+    //@Html.TextBox("nombre")
+    @Html.TextBox("nombre", null, new { @class = "form-control", id = "nombre" })
+
+
+
+
+}
+
+
+
+
+<table class="table table-striped">
+
+    <thead>
+        <tr>
+            <td width=0%> <b> @Html.LabelFor(p => Model[0].idsucursal)  </b>       </td>
+            <td width=0%> <b> @Html.LabelFor(p => Model[0].nombre)      </b>       </td>
+            <td width=0%> <b> @Html.LabelFor(p => Model[0].telefono)    </b>       </td>
+            <td width=0%> <b> @Html.LabelFor(p => Model[0].email)       </b>       </td>
+            <td width=1%> <b>    Operaciones                            </b>       </td>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td width=0%>@item.idsucursal</td>
+                <td width=0%>@item.nombre</td>
+                <td width=0%>@item.telefono</td>
+                <td width=0%>@item.email</td>
+
+                <td width=0%>
+
+                    @Html.ActionLink(" ", "Editar", "Sucursal", new { id = item.idsucursal }, new { @class = "glyphicon glyphicon-edit btn btn-primary" })
+                    @*width= 0%>@Html.ActionLink(" ", "Eliminar", "Sucursal", new { id = item.idsucursal}, new { @class = "glyphicon glyphicon-trash btn btn-danger",@onclick="eliminarSucursal()" })*@
+                    <button type="button" onclick="mostrarPopup(@item.idsucursal)" class="glyphicon glyphicon-trash btn btn-danger" data-toggle="modal" data-target="#myModal"></button>
+                </td>
+
+            </tr>
+
+        }
+    </tbody>
+
+</table>
+
+@using (Html.BeginForm("Eliminar", "Sucursal", FormMethod.Post, new { @id = "frmEliminar" }))
+{
+    @Html.Hidden("idsucursal");
+}
+
+
+
+
+<!--SCRIP PARA ELIMINAR LOGICAMENTE UNA SUCURSAL-->
+<!--MODAL-->
+<body>
+    <div class="container">
+        <!-- Trigger the modal with a button -->
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">¿Desea eliminar el registro ?</h4>
+                    </div>
+
+                    <div>
+                        <button type="button" onclick="Agregar()" class="btn btn-success">Aceptar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<!--Manda a llamar popUp()-->
+<script>
+
+    function mostrarPopup(idsucursal) {
+        document.getElementById("idsucursal").value = idsucursal;
+    }
+
+    //Elimina el registro
+    function Agregar() {
+        var frmEliminar = document.getElementById("frmEliminar");
+        frmEliminar.submit();
+
+    }
+
+
+    var nombre = document.getElementById("nombre");
+    nombre.onkeyup = function () {
+        var frmBusqueda = document.getElementById("frmBusqueda");
+        frmBusqueda.submit();
+
+    }
+
+
+
+
+
+
+
+
+</script>
+
+
